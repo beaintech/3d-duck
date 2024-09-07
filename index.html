@@ -1,136 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cute Animated 3D Birthday Yellow Duck</title>
+    <title>Cute 3D Duck with Birthday Text</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
     </style>
     <!-- Load Three.js from a CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://threejs.org/examples/jsm/loaders/FontLoader.js"></script>
+    <script src="https://threejs.org/examples/jsm/geometries/TextGeometry.js"></script>
 </head>
 <body>
     <script>
         // Create the scene
         const scene = new THREE.Scene();
-
-        // Set background color to pink
         scene.background = new THREE.Color(0xFFC0CB); // Pink background
 
         // Set up the camera
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.z = 5;
+        camera.position.z = 18; // Move camera further back for bigger duck
 
         // Set up the renderer
         const renderer = new THREE.WebGLRenderer({ antialias: true });
-        renderer.shadowMap.enabled = true; // Enable shadow
+        renderer.shadowMap.enabled = true; // Enable shadows
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
 
-        // Add a directional light from the top
-        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.2); // Increase light intensity
-        directionalLight.position.set(0, 10, 0); // Position directly above the scene
-        directionalLight.castShadow = true; // Enable shadow casting
-        directionalLight.shadow.mapSize.width = 1024; // Adjust shadow resolution
-        directionalLight.shadow.mapSize.height = 1024;
-        directionalLight.shadow.bias = -0.002; // Adjust bias to soften shadows
+        // Add directional light from the top
+        const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.2); // Brighter light
+        directionalLight.position.set(0, 10, 0); // Light from above
+        directionalLight.castShadow = true;
         scene.add(directionalLight);
 
-        // Add ambient light for softer global illumination
-        const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.4); // Soft ambient light to brighten shadows
+        // Add ambient light for softer shadows
+        const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.4); // Softer light
         scene.add(ambientLight);
 
-        // Yellow material for the duck
+        // Materials
         const yellowMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
-        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 }); // For the eyes
-        const orangeMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 }); // For the legs and beak
+        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
+        const orangeMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 });
 
-        // Create smaller duck body (Smaller sphere)
-        const bodyGeometry = new THREE.SphereGeometry(0.8, 32, 32); // Smaller body for balance
+        // Create the duck body (1.5 times bigger)
+        const bodyGeometry = new THREE.SphereGeometry(2.25, 32, 32); // Bigger body
         const body = new THREE.Mesh(bodyGeometry, yellowMaterial);
-        body.position.y = -0.7;  // Lower body position
-        body.castShadow = true; // Enable shadow casting
+        body.position.y = -2.25; // Lower body position
+        body.castShadow = true;
         body.receiveShadow = true;
         scene.add(body);
 
-        // Create smaller duck head (Increased separation between the head and body)
-        const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
+        // Duck head (Bigger)
+        const headGeometry = new THREE.SphereGeometry(1.5, 32, 32);
         const head = new THREE.Mesh(headGeometry, yellowMaterial);
-        head.position.set(0, 0.9, 0);  // More separation between head and body
-        head.castShadow = true; // Enable shadow casting
-        body.add(head); // Attach head to body to rotate together
+        head.position.set(0, 2.7, 0); // Higher head position to match bigger body
+        body.add(head);
 
-        // Create duck beak (Proportionally larger cone for the mouth)
-        const beakGeometry = new THREE.ConeGeometry(0.2, 0.35, 32); // Adjust size of the beak
+        // Duck beak (Adjusted size)
+        const beakGeometry = new THREE.ConeGeometry(0.45, 0.9, 32);
         const beak = new THREE.Mesh(beakGeometry, orangeMaterial);
-        beak.position.set(0, -0.1, 0.45);  // Position beak on the front of the head
-        beak.rotation.x = Math.PI / 2;  // Rotate beak to point forward
-        head.add(beak); // Add beak to head
+        beak.position.set(0, -0.3, 1.35);
+        beak.rotation.x = Math.PI / 2;
+        head.add(beak);
 
-        // Add cute eyes (Two spheres, matching smaller size)
-        const eyeGeometry = new THREE.SphereGeometry(0.1, 32, 32);  // Adjusted spheres for eyes
+        // Duck eyes (Bigger eyes)
+        const eyeGeometry = new THREE.SphereGeometry(0.3, 32, 32);
         const leftEye = new THREE.Mesh(eyeGeometry, blackMaterial);
         const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial);
+        leftEye.position.set(-0.375, 0.3, 1.275);
+        rightEye.position.set(0.375, 0.3, 1.275);
+        head.add(leftEye);
+        head.add(rightEye);
 
-        // Position the eyes on the front of the head
-        leftEye.position.set(-0.15, 0.1, 0.45);  // Left eye
-        rightEye.position.set(0.15, 0.1, 0.45);  // Right eye
-
-        head.add(leftEye); // Add left eye to head
-        head.add(rightEye); // Add right eye to head
-
-        // Add small legs (Move legs closer to the body)
-        const legGeometry = new THREE.CylinderGeometry(0.07, 0.07, 0.25, 32);  // Adjusted cylinders for legs
+        // Duck legs (Bigger)
+        const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.75, 32);
         const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
         const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+        leftLeg.position.set(-0.6, -2.25, 0);
+        rightLeg.position.set(0.6, -2.25, 0);
+        body.add(leftLeg);
+        body.add(rightLeg);
 
-        // Position the legs under the body, closer to the body
-        leftLeg.position.set(-0.25, -0.9, 0);  // Left leg closer to body
-        rightLeg.position.set(0.25, -0.9, 0);  // Right leg closer to body
-
-        body.add(leftLeg); // Add left leg to body
-        body.add(rightLeg); // Add right leg to body
-
-        // Add bigger birthday hat (Cone without dots, resized to match smaller duck)
-        const hatGeometry = new THREE.ConeGeometry(0.3, 0.8, 32); // Adjust hat size to match smaller duck
+        // Add birthday hat (Bigger)
+        const hatGeometry = new THREE.ConeGeometry(0.6, 1.5, 32);
         const hatMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
         const hat = new THREE.Mesh(hatGeometry, hatMaterial);
-        hat.position.set(0, 0.6, 0);  // Adjust position on top of the head
-        head.add(hat); // Add the hat as a child of the head
+        hat.position.set(0, 1.5, 0);
+        head.add(hat);
+
+        // Load font and add golden text
+        const loader = new THREE.FontLoader();
+        let textMesh;
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+            const textGeometry = new THREE.TextGeometry("Welcome to Bea's Birthday Party", {
+                font: font,
+                size: 1.5, // Bigger text size
+                height: 0.3,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.05,
+                bevelSize: 0.03,
+                bevelSegments: 5
+            });
+            const textMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 }); // Golden color
+            textMesh = new THREE.Mesh(textGeometry, textMaterial);
+            textMesh.position.set(-14, 7, 0); // Move text further left
+            scene.add(textMesh);
+        });
+
+        // Adjust text size and position on mobile
+        function adjustTextForMobile() {
+            if (window.innerWidth < 600) {
+                if (textMesh) {
+                    textMesh.scale.set(0.3, 0.3, 0.3); // Much smaller text for mobile
+                    textMesh.position.set(-4, 5, 0); // Adjust position for mobile
+                }
+            } else {
+                if (textMesh) {
+                    textMesh.scale.set(1, 1, 1); // Default size for larger screens
+                    textMesh.position.set(-14, 7, 0); // Default position
+                }
+            }
+        }
 
         // Animation variables
-        let floatDirection = 1; // Direction of floating (up and down)
-        let floatSpeed = 0.03; // Increased speed of floating
-        let rotationSpeed = 0.02; // Speed of rotation
+        let floatDirection = 1;
+        let floatSpeed = 0.08; // Faster speed
+        let rotationSpeed = 0.02;
 
-        // Duck animation (floating and rotating)
+        // Animation loop
         function animate() {
             requestAnimationFrame(animate);
 
-            // Rotate the body and head (since head is attached to the body, they rotate together)
             body.rotation.y += rotationSpeed;
-
-            // Make the duck float up and down
             body.position.y += floatSpeed * floatDirection;
-            if (body.position.y > 0.5 || body.position.y < -1.0) {
-                floatDirection *= -1;  // Reverse direction when reaching limits
+
+            if (body.position.y > 0.75 || body.position.y < -2.75) {
+                floatDirection *= -1;
             }
 
-            // Render the scene
             renderer.render(scene, camera);
         }
 
-        // Start the animation loop
         animate();
 
-        // Make canvas responsive
+        // Handle resizing and mobile adjustments
         window.addEventListener('resize', () => {
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
+            adjustTextForMobile(); // Adjust text for mobile on resize
         });
+
+        adjustTextForMobile(); // Initial adjustment
     </script>
 </body>
 </html>
