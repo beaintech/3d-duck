@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Birthday Yellow Duck</title>
+    <title>Animated 3D Birthday Yellow Duck</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
     </style>
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Load Three.js from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
     <script>
         // Create the scene
         const scene = new THREE.Scene();
+
+        // Set background color to pink
+        scene.background = new THREE.Color(0xFFC0CB); // Pink background
 
         // Set up the camera
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -41,28 +45,42 @@
         const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
         const head = new THREE.Mesh(headGeometry, yellowMaterial);
         head.position.set(0, 1.5, 0);  // Position head on top of body
-        scene.add(head);
+        body.add(head); // Add the head as a child of the body
 
         // Create duck beak (Cone)
         const beakGeometry = new THREE.ConeGeometry(0.2, 0.5, 32);
         const beakMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 });
         const beak = new THREE.Mesh(beakGeometry, beakMaterial);
-        beak.position.set(0, 1.2, 0.75);  // Position the beak in front of the head
+        beak.position.set(0, -0.2, 0.5);  // Adjust the beak to be correctly placed in front of the head
         beak.rotation.x = Math.PI / 2;  // Rotate beak to point forward
-        scene.add(beak);
+        head.add(beak); // Add the beak as a child of the head
 
         // Add birthday hat (Cone)
         const hatGeometry = new THREE.ConeGeometry(0.3, 1, 32);
         const hatMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
         const hat = new THREE.Mesh(hatGeometry, hatMaterial);
-        hat.position.set(0, 2, 0);  // Position hat on top of the head
-        scene.add(hat);
+        hat.position.set(0, 0.75, 0);  // Adjust position on top of the head
+        head.add(hat); // Add the hat as a child of the head
 
-        // Duck animation (simple rotation)
+        // Animation variables
+        let floatDirection = 1; // Direction of floating (up and down)
+        let floatSpeed = 0.01; // Speed of floating
+        let rotationSpeed = 0.02; // Speed of rotation
+
+        // Duck animation (floating and rotating)
         function animate() {
             requestAnimationFrame(animate);
-            body.rotation.y += 0.01;  // Rotate body
-            head.rotation.y += 0.01;  // Rotate head with body
+
+            // Rotate the body and head
+            body.rotation.y += rotationSpeed;  // Rotate body along Y-axis
+
+            // Make the duck float up and down
+            body.position.y += floatSpeed * floatDirection;
+            if (body.position.y > 0.5 || body.position.y < -0.5) {
+                floatDirection *= -1;  // Reverse direction when reaching limits
+            }
+
+            // Render the scene
             renderer.render(scene, camera);
         }
 
@@ -76,5 +94,5 @@
             camera.updateProjectionMatrix();
         });
     </script>
-    </body>
+</body>
 </html>
