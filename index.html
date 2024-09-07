@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated 3D Birthday Yellow Duck</title>
+    <title>Bea Birthday Food Menu</title>
     <style>
         body { margin: 0; }
         canvas { display: block; }
@@ -35,48 +35,74 @@
 
         // Yellow material for the duck
         const yellowMaterial = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+        const blackMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 }); // For the eyes
+        const orangeMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 }); // For the legs and beak
 
-        // Create duck body (Sphere)
-        const bodyGeometry = new THREE.SphereGeometry(1, 32, 32);
+        // Create smaller duck body (Smaller sphere)
+        const bodyGeometry = new THREE.SphereGeometry(0.8, 32, 32); // Smaller body for balance
         const body = new THREE.Mesh(bodyGeometry, yellowMaterial);
+        body.position.y = -0.7;  // Lower body position
         scene.add(body);
 
-        // Create duck head (Smaller sphere)
+        // Create smaller duck head (Increased separation between the head and body)
         const headGeometry = new THREE.SphereGeometry(0.5, 32, 32);
         const head = new THREE.Mesh(headGeometry, yellowMaterial);
-        head.position.set(0, 1.5, 0);  // Position head on top of body
-        body.add(head); // Add the head as a child of the body
+        head.position.set(0, 0.9, 0);  // More separation between head and body
+        body.add(head); // Attach head to body to rotate together
 
-        // Create duck beak (Cone)
-        const beakGeometry = new THREE.ConeGeometry(0.2, 0.5, 32);
-        const beakMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 });
-        const beak = new THREE.Mesh(beakGeometry, beakMaterial);
-        beak.position.set(0, -0.2, 0.5);  // Adjust the beak to be correctly placed in front of the head
+        // Create duck beak (Smaller cone to match size)
+        const beakGeometry = new THREE.ConeGeometry(0.2, 0.3, 32); // Adjust size of beak
+        const beak = new THREE.Mesh(beakGeometry, orangeMaterial);
+        beak.position.set(0, -0.1, 0.45);  // Position beak on the front of the head
         beak.rotation.x = Math.PI / 2;  // Rotate beak to point forward
-        head.add(beak); // Add the beak as a child of the head
+        head.add(beak); // Add beak to head
 
-        // Add birthday hat (Cone)
-        const hatGeometry = new THREE.ConeGeometry(0.3, 1, 32);
+        // Add cute eyes (Two spheres, matching smaller size)
+        const eyeGeometry = new THREE.SphereGeometry(0.1, 32, 32);  // Adjusted spheres for eyes
+        const leftEye = new THREE.Mesh(eyeGeometry, blackMaterial);
+        const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial);
+
+        // Position the eyes on the front of the head
+        leftEye.position.set(-0.15, 0.1, 0.45);  // Left eye
+        rightEye.position.set(0.15, 0.1, 0.45);  // Right eye
+
+        head.add(leftEye); // Add left eye to head
+        head.add(rightEye); // Add right eye to head
+
+        // Add small legs (Move legs closer to the body)
+        const legGeometry = new THREE.CylinderGeometry(0.07, 0.07, 0.25, 32);  // Adjusted cylinders for legs
+        const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+        const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+
+        // Position the legs under the body, closer to the body
+        leftLeg.position.set(-0.25, -0.9, 0);  // Left leg closer to body
+        rightLeg.position.set(0.25, -0.9, 0);  // Right leg closer to body
+
+        body.add(leftLeg); // Add left leg to body
+        body.add(rightLeg); // Add right leg to body
+
+        // Add bigger birthday hat (Cone without dots, resized to match smaller duck)
+        const hatGeometry = new THREE.ConeGeometry(0.3, 0.8, 32); // Adjust hat size to match smaller duck
         const hatMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
         const hat = new THREE.Mesh(hatGeometry, hatMaterial);
-        hat.position.set(0, 0.75, 0);  // Adjust position on top of the head
+        hat.position.set(0, 0.6, 0);  // Adjust position on top of the head
         head.add(hat); // Add the hat as a child of the head
 
         // Animation variables
         let floatDirection = 1; // Direction of floating (up and down)
-        let floatSpeed = 0.01; // Speed of floating
+        let floatSpeed = 0.03; // Speed of floating
         let rotationSpeed = 0.02; // Speed of rotation
 
         // Duck animation (floating and rotating)
         function animate() {
             requestAnimationFrame(animate);
 
-            // Rotate the body and head
-            body.rotation.y += rotationSpeed;  // Rotate body along Y-axis
+            // Rotate the body and head (since head is attached to the body, they rotate together)
+            body.rotation.y += rotationSpeed;
 
             // Make the duck float up and down
             body.position.y += floatSpeed * floatDirection;
-            if (body.position.y > 0.5 || body.position.y < -0.5) {
+            if (body.position.y > 0.5 || body.position.y < -1.0) {
                 floatDirection *= -1;  // Reverse direction when reaching limits
             }
 
