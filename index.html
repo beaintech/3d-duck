@@ -4,59 +4,225 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food Menu - Bea Birthday</title>
+    <link rel="icon" href="./favicon.ico" />
+    <!-- Load Three.js from a CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://threejs.org/examples/jsm/loaders/FontLoader.js"></script>
+    <script src="https://threejs.org/examples/jsm/geometries/TextGeometry.js"></script>
+    <!-- <link rel="stylesheet" href="./style.css"> -->
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            background-color: #1e1e1e; /* Dark background */
-            font-family: 'Press Start 2P', cursive; /* Retro, pixelated font */
-        }
-
-        /* Import the Mario-like pixel font */
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
         /* Main container for the text */
-        .game-text {
+        .game-text, .game-text-2 {
             position: absolute;
-            top: 20px;
+            top: 80px;
             left: 50%;
+            line-height: 60px;
             transform: translateX(-50%);
             font-size: 2.5em; /* Large font size for a Mario-like look */
-            color: #ff0000; /* Mario Red */
+            color: gold; /* Mario Red */
             text-shadow: 2px 2px 0px #000000, 4px 4px 0px #f1c40f, 6px 6px 0px #3498db; /* 3D-like shadow */
             text-align: center;
             z-index: 10; /* Keep the text on top of the duck */
         }
 
-        /* Flickering animation like old games */
-        @keyframes flicker {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.9;
-            }
+        .game-text-2 {
+            top: 750px;
+            font-size: 2em;
+            line-height: 40px;
+            color: white
         }
 
-        /* Ensures canvas is behind text */
-        canvas {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 1;
+        body {
+        background-color: #87CEEB; /* Sky blue background like in Mario games */
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        font-family: 'Press Start 2P', cursive; /* Retro, pixelated font */
         }
-    </style>
-    <!-- Load Three.js from a CDN -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://threejs.org/examples/jsm/loaders/FontLoader.js"></script>
-    <script src="https://threejs.org/examples/jsm/geometries/TextGeometry.js"></script>
+
+        .App {  
+        max-width: 600px;
+        text-align: center;
+        font-family: 'Press Start 2P', cursive;
+        padding: 20px;
+        background-color: #ffcc4d; /* Bright yellow background */
+        border: 6px solid #ff0000; /* Bold red border */
+        border-radius: 15px;
+        margin: 50px auto;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .App-header {
+        background-color: #ffffff; /* White background for contrast */
+        padding: 30px;
+        border-radius: 15px;
+        line-height: 40px;
+        color: #000000;
+        text-transform: uppercase;
+        border: 6px solid #ff0000; /* Bold red border */
+        }
+
+        h1 {
+        color: #ff0000; /* Mario red */
+        font-size: 24px;
+        line-height: 50px;
+        margin-bottom: 20px;
+        text-shadow: 2px 2px #000000; /* Black shadow for 3D effect */
+        }
+
+        p {
+        font-size: 14px;
+        line-height: 1.8;
+        color: #000000;
+        margin-bottom: 15px;
+        }
+
+        .details {
+        text-align: left;
+        margin: 20px auto;
+        max-width: 560px;
+        border: 4px solid #ff6600; /* Orange border */
+        background-color: #ffcc4d; /* Matching the main background */
+        padding: 10px;
+        border-radius: 10px;
+        
+        }
+
+        .details p {
+        margin: 8px 0;
+        font-weight: bold;
+        color: #ff0000; /* Mario red */
+        }
+
+        strong {
+        color: #0073e6; /* Mario blue */
+        }
+
+        .language-toggle-button {
+        margin-bottom: 20px;
+        font-family: 'Press Start 2P', cursive;
+        padding: 10px 20px;
+        background-color: #00cc66;
+        color: #ffffff;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-transform: uppercase;
+        box-shadow: 2px 2px #000000;
+        margin-left: 10px;
+        }
+
+        .language-toggle-button:hover {
+        background-color: #00994c;
+        }
+
+        .cocktail-pause {
+        text-align: center; /* Center the text */
+        font-family: 'Press Start 2P', cursive; /* Mario-style font */
+        font-size: 16px; /* Adjust font size */
+        color: #ff0000; /* Mario red for the text */
+        background-color: #fff9c4; /* Soft yellow background to contrast with text */
+        border: 4px solid #ff6600; /* Bold orange border */
+        border-radius: 10px; /* Rounded corners for the pause box */
+        padding: 20px; /* Padding to give the text breathing room */
+        margin: 30px auto; /* Space around the pause section */
+        width: 80%; /* Set the width of the pause box */
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
+        }
+
+        .cocktail-pause p {
+        margin: 0; /* Remove default margin */
+        line-height: 1.6; /* Better line spacing */
+        }
+
+        @media (max-width: 600px) {
+        .cocktail-pause {
+            font-size: 12px; /* Adjust for mobile screens */
+            width: 90%; /* Narrower for mobile */
+            padding: 15px; /* Adjust padding for mobile */
+        }
+        }
+
+     </style>
 </head>
 <body>
+    <!-- Welcome Text -->
     <div class="game-text">
-        Welcome to My Birthday Party
+        Welcome to Bea's Birthday Party!
     </div>
+
+    <!-- 3D Duck Section (Container with height 400px) -->
+    <div id="duck-canvas"></div> 
+
+    <div class="game-text-2">
+        Celebrating with food, drinks, and fun!
+    </div>
+   
+    <!-- First Course: Guangdong Style Dim Sum -->
+    <div class="App">
+        <header class="App-header">
+            <h1>First Course: Guangdong-Style Dim Sum</h1>
+        </header>
+        <div class="details">
+            <p>Enjoy a selection of one-bite delights from Guangdong, including:</p>
+            <ul>
+                <li>Steamed shrimp dumplings</li>
+                <li>Steamed pork dumplings</li>
+                <li>Steamed beef dumplings</li>
+                <li>Vegetable baozi</li>
+                <li>Fried chicken dumplings</li>
+                <li>Fried spring rolls</li>
+            </ul>
+        </div>
+    </div>
+
+        <!-- Cocktails Pause -->
+        <div class="cocktail-pause">
+            <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or try the Asian-inspired Green Tea Soju.</p>
+        </div>
+
+        <!-- Second Course: Sichuan Style Hotpot -->
+        <div class="App">
+            <header class="App-header">
+                <h1>Second Course: Sichuan-Style Hotpot</h1>
+            </header>
+            <div class="details">
+                <p>Dive into a spicy and flavorful Sichuan hotpot, featuring:</p>
+                <ul>
+                    <li>Fish balls and beef balls</li>
+                    <li>Thin-sliced lamb and beef</li>
+                    <li>Crispy fried bread</li>
+                    <li>A variety of vegetables and tofu</li>
+                    <li>Traditional hotpot sauces</li>
+                </ul>
+            </div>
+        </div>
+
+            <!-- Cocktails Pause -->
+            <div class="cocktail-pause">
+                <p>Cocktail break: Refresh with a Negroni, Amber, or Green Tea Soju.</p>
+            </div>
+        
+            <!-- Third Course: Shanghai Style -->
+            <div class="App">
+                <header class="App-header">
+                    <h1>Main Course: Shanghai Specialties</h1>
+                </header>
+                <div class="details">
+                    <p>Indulge in a hearty meal of:</p>
+                    <ul>
+                        <li>Smokey sausage fried rice</li>
+                        <li>Creamy vegetable fried noodles</li>
+                    </ul>
+                </div>
+            </div>
+        
+        <!-- Cocktails Pause -->
+        <div class="cocktail-pause">
+            <p>Cocktail break: Refresh with a Negroni, Amber, or Green Tea Soju.</p>
+        </div>
 
     <script>
         // Create the scene
@@ -71,7 +237,8 @@
         const renderer = new THREE.WebGLRenderer({ antialias: true });
         renderer.shadowMap.enabled = true; // Enable shadows
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        document.getElementById('duck-canvas').appendChild(renderer.domElement);
+
 
         // Add directional light from the top
         const directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.2); // Brighter light

@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* Main container for the text */
+.game-text, .game-text-2 {
+    position: absolute;
+    top: 150px;
+    left: 50%;
+    line-height: 60px;
+    transform: translateX(-50%);
+    font-size: 2.5em; /* Large font size for a Mario-like look */
+    color: gold; /* Mario Red */
+    text-shadow: 2px 2px 0px #000000, 4px 4px 0px #f1c40f, 6px 6px 0px #3498db; /* 3D-like shadow */
+    text-align: center;
+    z-index: 10; /* Keep the text on top of the duck */
+}
+
+.game-text-2 {
+    top: 750px;
+    font-size: 2em;
+    line-height: 40px;
+    color: white
+}
+
+body {
+  background-color: #87CEEB; /* Sky blue background like in Mario games */
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  font-family: 'Press Start 2P', cursive; /* Retro, pixelated font */
+}
+
+.App {
+    max-width: 600px;
+  text-align: center;
+  font-family: 'Press Start 2P', cursive;
+  padding: 20px;
+  background-color: #ffcc4d; /* Bright yellow background */
+  border: 6px solid #ff0000; /* Bold red border */
+  border-radius: 15px;
+  margin: 50px auto;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+}
+
+.App-header {
+  background-color: #ffffff; /* White background for contrast */
+  padding: 30px;
+  border-radius: 15px;
+  line-height: 40px;
+  color: #000000;
+  text-transform: uppercase;
+  border: 6px solid #ff0000; /* Bold red border */
+}
+
+h1 {
+  color: #ff0000; /* Mario red */
+  font-size: 24px;
+  line-height: 60px;
+
+  margin-bottom: 20px;
+  text-shadow: 2px 2px #000000; /* Black shadow for 3D effect */
+}
+
+p {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #000000;
+  margin-bottom: 15px;
+}
+
+.details {
+  text-align: left;
+  margin: 20px auto;
+  max-width: 560px;
+  border: 4px solid #ff6600; /* Orange border */
+  background-color: #ffcc4d; /* Matching the main background */
+  padding: 10px;
+  border-radius: 10px;
+ 
+}
+
+.details p {
+  margin: 8px 0;
+  font-weight: bold;
+  color: #ff0000; /* Mario red */
+}
+
+strong {
+  color: #0073e6; /* Mario blue */
+}
+
+.language-toggle-button {
+  margin-bottom: 20px;
+  font-family: 'Press Start 2P', cursive;
+  padding: 10px 20px;
+  background-color: #00cc66;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  box-shadow: 2px 2px #000000;
+  margin-left: 10px;
+}
+
+.language-toggle-button:hover {
+  background-color: #00994c;
+}
+
+.cocktail-pause {
+  text-align: center; /* Center the text */
+  font-family: 'Press Start 2P', cursive; /* Mario-style font */
+  font-size: 16px; /* Adjust font size */
+  color: #ff0000; /* Mario red for the text */
+  background-color: #fff9c4; /* Soft yellow background to contrast with text */
+  border: 4px solid #ff6600; /* Bold orange border */
+  border-radius: 10px; /* Rounded corners for the pause box */
+  padding: 20px; /* Padding to give the text breathing room */
+  margin: 30px auto; /* Space around the pause section */
+  width: 80%; /* Set the width of the pause box */
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
+}
+
+.cocktail-pause p {
+  margin: 0; /* Remove default margin */
+  line-height: 1.6; /* Better line spacing */
+}
+
+@media (max-width: 600px) {
+  .cocktail-pause {
+      font-size: 12px; /* Adjust for mobile screens */
+      width: 90%; /* Narrower for mobile */
+      padding: 15px; /* Adjust padding for mobile */
+  }
+}
