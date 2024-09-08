@@ -3,10 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cute 3D Duck with Birthday Text</title>
+    <title>Food Menu - Bea Birthday</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #1e1e1e; /* Dark background */
+            font-family: 'Press Start 2P', cursive; /* Retro, pixelated font */
+        }
+
+        /* Import the Mario-like pixel font */
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+        /* Main container for the text */
+        .game-text {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2.5em; /* Large font size for a Mario-like look */
+            color: #ff0000; /* Mario Red */
+            text-shadow: 2px 2px 0px #000000, 4px 4px 0px #f1c40f, 6px 6px 0px #3498db; /* 3D-like shadow */
+            text-align: center;
+            z-index: 10; /* Keep the text on top of the duck */
+        }
+
+        /* Flickering animation like old games */
+        @keyframes flicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.9;
+            }
+        }
+
+        /* Ensures canvas is behind text */
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
     </style>
     <!-- Load Three.js from a CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -14,6 +54,10 @@
     <script src="https://threejs.org/examples/jsm/geometries/TextGeometry.js"></script>
 </head>
 <body>
+    <div class="game-text">
+        Welcome to My Birthday Party
+    </div>
+
     <script>
         // Create the scene
         const scene = new THREE.Scene();
@@ -55,22 +99,32 @@
         // Duck head (Bigger)
         const headGeometry = new THREE.SphereGeometry(1.5, 32, 32);
         const head = new THREE.Mesh(headGeometry, yellowMaterial);
-        head.position.set(0, 2.7, 0); // Higher head position to match bigger body
+        head.position.set(0, 2.2, 0); // Higher head position to match bigger body
         body.add(head);
 
         // Duck beak (Adjusted size)
-        const beakGeometry = new THREE.ConeGeometry(0.45, 0.9, 32);
+        const beakGeometry = new THREE.SphereGeometry(0.5, 32, 16, 0, Math.PI); // Use half a sphere for a smoother, jelly-like shape
         const beak = new THREE.Mesh(beakGeometry, orangeMaterial);
-        beak.position.set(0, -0.3, 1.35);
-        beak.rotation.x = Math.PI / 2;
+        beak.position.set(0, -0.1, 1.1); // Higher on the head, closer to the top
+        beak.scale.set(1.2, 0.6, 1); // Flatten and widen the beak to give a jelly-like appearance
         head.add(beak);
+        
+        // Duck eyes (Rounded, cute eyes)
+        const eyeGeometry = new THREE.SphereGeometry(0.2, 32, 32); // Rounded eyes with smooth SphereGeometry
+        const eyeMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 }); // Black color for the eyes
 
-        // Duck eyes (Bigger eyes)
-        const eyeGeometry = new THREE.SphereGeometry(0.3, 32, 32);
-        const leftEye = new THREE.Mesh(eyeGeometry, blackMaterial);
-        const rightEye = new THREE.Mesh(eyeGeometry, blackMaterial);
-        leftEye.position.set(-0.375, 0.3, 1.275);
-        rightEye.position.set(0.375, 0.3, 1.275);
+        const leftEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+        const rightEye = new THREE.Mesh(eyeGeometry, eyeMaterial);
+
+        // Adjust the position for both eyes
+        leftEye.position.set(-0.35, 0.35, 1.25); // Left eye position
+        rightEye.position.set(0.35, 0.35, 1.25); // Right eye position
+
+        // Optional: Scale the eyes to give a slightly oval, expressive appearance
+        leftEye.scale.set(1.2, 1.5, 1); // Taller oval shape
+        rightEye.scale.set(1.2, 1.5, 1); // Taller oval shape
+
+        // Add the eyes to the head
         head.add(leftEye);
         head.add(rightEye);
 
@@ -83,67 +137,44 @@
         body.add(leftLeg);
         body.add(rightLeg);
 
-        // Add birthday hat (Bigger)
-        const hatGeometry = new THREE.ConeGeometry(0.6, 1.5, 32);
-        const hatMaterial = new THREE.MeshStandardMaterial({ color: 0xff0000 });
-        const hat = new THREE.Mesh(hatGeometry, hatMaterial);
-        hat.position.set(0, 1.5, 0);
-        head.add(hat);
+        // Crown base (cylinder)
+        const crownBaseGeometry = new THREE.CylinderGeometry(0.8, 0.8, 0.2, 32); // Base for the crown
+        const crownBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 }); // Golden color for the crown
+        const crownBase = new THREE.Mesh(crownBaseGeometry, crownBaseMaterial);
+        crownBase.position.set(0, 1.6, 0); // Position it on top of the head
+        head.add(crownBase);
 
-        // Load font and add golden text
-        const loader = new THREE.FontLoader();
-        let textMesh;
-        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
-            const textGeometry = new THREE.TextGeometry("Welcome to Bea's Birthday Party", {
-                font: font,
-                size: 1.5, // Bigger text size
-                height: 0.3,
-                curveSegments: 12,
-                bevelEnabled: true,
-                bevelThickness: 0.05,
-                bevelSize: 0.03,
-                bevelSegments: 5
-            });
-            const textMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 }); // Golden color
-            textMesh = new THREE.Mesh(textGeometry, textMaterial);
-            textMesh.position.set(-14, 7, 0); // Move text further left
-            scene.add(textMesh);
-        });
+        // Crown spikes (moderately bigger cones)
+        for (let i = 0; i < 8; i++) {
+            const spikeGeometry = new THREE.ConeGeometry(0.15, 0.45, 32); // Moderately larger cone for spikes
+            const spikeMaterial = new THREE.MeshStandardMaterial({ color: 0xFFD700 }); // Golden color for spikes
+            const spike = new THREE.Mesh(spikeGeometry, spikeMaterial);
 
-        // Adjust text size and position on mobile
-        function adjustTextForMobile() {
-            if (window.innerWidth < 600) {
-                if (textMesh) {
-                    textMesh.scale.set(0.3, 0.3, 0.3); // Much smaller text for mobile
-                    textMesh.position.set(-4, 5, 0); // Adjust position for mobile
-                }
-            } else {
-                if (textMesh) {
-                    textMesh.scale.set(1, 1, 1); // Default size for larger screens
-                    textMesh.position.set(-14, 7, 0); // Default position
-                }
-            }
+            const angle = (i / 8) * Math.PI * 2; // Evenly space spikes around the crown
+            spike.position.set(Math.cos(angle) * 0.7, 1.9, Math.sin(angle) * 0.7); // Adjust spike position
+            spike.rotation.x = Math.PI / 2; // Ensure the spikes point upwards
+            head.add(spike);
         }
 
         // Animation variables
         let floatDirection = 1;
         let floatSpeed = 0.08; // Faster speed
-        let rotationSpeed = 0.02;
 
         // Animation loop
         function animate() {
             requestAnimationFrame(animate);
 
-            body.rotation.y += rotationSpeed;
+            // Make the duck float up and down smoothly
             body.position.y += floatSpeed * floatDirection;
 
-            if (body.position.y > 0.75 || body.position.y < -2.75) {
-                floatDirection *= -1;
+            // Adjust the float range
+            if (body.position.y > -1 || body.position.y < -4.0) {
+                floatDirection *= -1;  // Reverse the floating direction when limits are reached
             }
 
+            // Render the scene
             renderer.render(scene, camera);
         }
-
         animate();
 
         // Handle resizing and mobile adjustments
@@ -151,10 +182,7 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
-            adjustTextForMobile(); // Adjust text for mobile on resize
         });
-
-        adjustTextForMobile(); // Initial adjustment
     </script>
 </body>
 </html>
