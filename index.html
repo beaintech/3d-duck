@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Menu - Bea Birthday</title>
+    <title>Food Menu for Bea Birthday VIPs</title>
     <link rel="icon" href="./favicon.ico" />
     <!-- Load Three.js from a CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -306,14 +306,33 @@
         head.add(leftEye);
         head.add(rightEye);
 
-        // Duck legs (Bigger)
-        const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.75, 32);
-        const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
-        const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
-        leftLeg.position.set(-0.6, -2.25, 0);
-        rightLeg.position.set(0.6, -2.25, 0);
-        body.add(leftLeg);
-        body.add(rightLeg);
+// Duck legs (Cylinder geometry for legs, already in place)
+const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.75, 32);
+const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+leftLeg.position.set(-0.6, -2.25, 0);
+rightLeg.position.set(0.6, -2.25, 0);
+body.add(leftLeg);
+body.add(rightLeg);
+
+// Duck feet (Box geometry for webbed feet)
+const footGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.6); // Rectangular foot shape
+const footMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 }); // Orange color for the feet
+
+// Left foot
+const leftFoot = new THREE.Mesh(footGeometry, footMaterial);
+leftFoot.position.set(-0.6, -2.65, 0.3); // Positioned just below the left leg
+leftFoot.castShadow = true;
+leftFoot.receiveShadow = true;
+body.add(leftFoot);
+
+// Right foot
+const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
+rightFoot.position.set(0.6, -2.65, 0.3); // Positioned just below the right leg
+rightFoot.castShadow = true;
+rightFoot.receiveShadow = true;
+body.add(rightFoot);
+
 
         // Crown base (cylinder)
         const crownBaseGeometry = new THREE.CylinderGeometry(0.8, 0.7, 0.35, 32);
@@ -440,7 +459,7 @@
         // Animation variables
         let floatDirection = 1;
         let floatSpeed = 0.1; // Faster speed
-        let rotationSpeed = 0.08; // Speed of rotation
+        let rotationSpeed = 0.05; // Speed of rotation
 
         // Animation loop
         function animate() {
