@@ -21,12 +21,32 @@
     color: white
 }
 
+        /* Flickering animation like old games */
+        @keyframes flicker {
+          0%, 100% {
+              opacity: 1;
+          }
+          50% {
+              opacity: 0.9;
+          }
+      }
+
+      /* Ensures canvas is behind text */
+      /* canvas {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: 1;
+      } */
+
 body {
   background-color: #87CEEB; /* Sky blue background like in Mario games */
   margin: 0;
   padding: 0;
   width: 100%;
   font-family: 'Press Start 2P', cursive; /* Retro, pixelated font */
+
 }
 
 .App {
@@ -107,28 +127,28 @@ strong {
 }
 
 .cocktail-pause {
-  text-align: center; /* Center the text */
-  font-family: 'Press Start 2P', cursive; /* Mario-style font */
-  font-size: 16px; /* Adjust font size */
-  color: #ff0000; /* Mario red for the text */
-  background-color: #fff9c4; /* Soft yellow background to contrast with text */
-  border: 4px solid #ff6600; /* Bold orange border */
-  border-radius: 10px; /* Rounded corners for the pause box */
-  padding: 20px; /* Padding to give the text breathing room */
-  margin: 30px auto; /* Space around the pause section */
-  width: 80%; /* Set the width of the pause box */
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
+    text-align: center; /* Center the text */
+    font-family: 'Press Start 2P', cursive; /* Mario-style font */
+    font-size: 16px; /* Adjust font size */
+    color: #ff0000; /* Mario red for the text */
+    background-color: #fff9c4; /* Soft yellow background to contrast with text */
+    border: 4px solid #ff6600; /* Bold orange border */
+    border-radius: 10px; /* Rounded corners for the pause box */
+    padding: 20px; /* Padding to give the text breathing room */
+    margin: 30px auto; /* Space around the pause section */
+    width: 80%; /* Set the width of the pause box */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
 }
 
 .cocktail-pause p {
-  margin: 0; /* Remove default margin */
-  line-height: 1.6; /* Better line spacing */
+    margin: 0; /* Remove default margin */
+    line-height: 1.6; /* Better line spacing */
 }
 
 @media (max-width: 600px) {
-  .cocktail-pause {
-      font-size: 12px; /* Adjust for mobile screens */
-      width: 90%; /* Narrower for mobile */
-      padding: 15px; /* Adjust padding for mobile */
-  }
+    .cocktail-pause {
+        font-size: 12px; /* Adjust for mobile screens */
+        width: 90%; /* Narrower for mobile */
+        padding: 15px; /* Adjust padding for mobile */
+    }
 }
