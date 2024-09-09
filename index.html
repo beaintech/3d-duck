@@ -408,7 +408,6 @@ cakeGroup.rotation.y = Math.PI / 4; // Rotate by 45 degrees (in radians)
 // Add cake group to the scene
 scene.add(cakeGroup);
 
-
 // Create a group for both the wine bottle and wine glass
 const wineGroup = new THREE.Group();
 
@@ -417,18 +416,18 @@ const wineBottleGroup = new THREE.Group();
 
 // Wine bottle body (cylinder)
 const bottleBodyGeometry = new THREE.CylinderGeometry(0.7, 0.7, 5, 32); // Wide, tall cylinder for the bottle body
-const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
+const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true, depthWrite: false }); // Green glass-like material
 const bottleBody = new THREE.Mesh(bottleBodyGeometry, bottleBodyMaterial);
-bottleBody.position.set(0, -0.5, 0); // Position inside the group
+bottleBody.position.set(0, 0.5, 0); // Position inside the group
 bottleBody.castShadow = true;
 bottleBody.receiveShadow = true;
 wineBottleGroup.add(bottleBody); // Add bottle body to group
 
 // Wine bottle neck (smaller cylinder)
 const bottleNeckGeometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32); // Narrower cylinder for the neck
-const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
+const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true, depthWrite: false }); // Green glass-like material
 const bottleNeck = new THREE.Mesh(bottleNeckGeometry, bottleNeckMaterial);
-bottleNeck.position.set(0, 2.5, 0); // Position inside the group
+bottleNeck.position.set(0, 4, 0); // Position inside the group
 bottleNeck.castShadow = true;
 bottleNeck.receiveShadow = true;
 wineBottleGroup.add(bottleNeck); // Add bottle neck to group
@@ -437,10 +436,19 @@ wineBottleGroup.add(bottleNeck); // Add bottle neck to group
 const bottleCapGeometry = new THREE.CylinderGeometry(0.35, 0.35, 0.4, 32); // Small cylinder for the cap
 const bottleCapMaterial = new THREE.MeshStandardMaterial({ color: 0x8B0000 }); // Dark red color for the cap
 const bottleCap = new THREE.Mesh(bottleCapGeometry, bottleCapMaterial);
-bottleCap.position.set(0, 3.7, 0); // Position inside the group
+bottleCap.position.set(0, 5.2, 0); // Position inside the group
 bottleCap.castShadow = true;
 bottleCap.receiveShadow = true;
 wineBottleGroup.add(bottleCap); // Add bottle cap to group
+
+// Create the red wine inside the bottle
+const wineGeometry = new THREE.CylinderGeometry(0.65, 0.65, 3.5, 32); // Slightly smaller than bottle body
+const wineMaterial = new THREE.MeshStandardMaterial({ color: 0x8B0000, opacity: 0.6, transparent: true }); // Red color for the wine
+const wine = new THREE.Mesh(wineGeometry, wineMaterial);
+wine.position.set(0, 0, 0); // Position inside the bottle
+wine.castShadow = true;
+wine.receiveShadow = true;
+wineBottleGroup.add(wine); // Add wine to the bottle group
 
 // Add the wine bottle group to the main wineGroup
 wineBottleGroup.position.set(-1, 0, 0); // Position the bottle within the combined group
@@ -487,7 +495,6 @@ wineGroup.add(wineGlassGroup);
 // Set the position of the combined wine group
 wineGroup.position.set(-5, -2.25, 0); // Position the group in the scene
 scene.add(wineGroup); // Add the combined wine group to the scene
-
 
 // Handle resizing and mobile adjustments
  window.addEventListener('resize', () => {
