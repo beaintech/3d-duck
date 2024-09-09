@@ -202,7 +202,7 @@
 
         <!-- Cocktails Pause -->
         <div class="cocktail-pause">
-            <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Aperol Spritz or the Asian-inspired Green Tea Soju.</p>
+            <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Bitter Orange Spritz or the Asian-inspired Green Tea Soju.</p>
         </div>
 
         <!-- Second Course: Sichuan Style Hotpot -->
@@ -225,7 +225,7 @@
 
             <!-- Cocktails Pause -->
             <div class="cocktail-pause">
-                <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Aperol Spritz or the Asian-inspired Green Tea Soju.</p>
+                <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Bitter Orange Spritz or the Asian-inspired Green Tea Soju.</p>
             </div>
         
             <!-- Third Course: Shanghai Style -->
@@ -244,7 +244,7 @@
         
         <!-- Cocktails Pause -->
         <div class="cocktail-pause">
-            <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Aperol Spritz or the Asian-inspired Green Tea Soju.</p>
+            <p>Cocktail break: Savor classic cocktails like Negroni and Amber, or explore refreshing options like Bitter Orange Spritz or the Asian-inspired Green Tea Soju.</p>
         </div>
 
         <div class="App">
@@ -274,7 +274,6 @@
         renderer.shadowMap.enabled = true; // Enable shadows
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('duck-canvas').appendChild(renderer.domElement);
-        document.getElementById('cake-canvas').appendChild(renderer.domElement);
 
         // Add directional light from the top
         const directionalLight = new THREE.DirectionalLight(0xFFFFFF, .7); // Brighter light
@@ -293,17 +292,17 @@
 
         // Create the duck body (1.5 times bigger)
         const bodyGeometry = new THREE.SphereGeometry(2.25, 32, 32); // Bigger body
-        const body = new THREE.Mesh(bodyGeometry, yellowMaterial);
-        body.position.y = -2.25; // Lower body position
-        body.castShadow = true;
-        body.receiveShadow = true;
-        scene.add(body);
+        const duck = new THREE.Mesh(bodyGeometry, yellowMaterial);
+        duck.position.y = -2.25; // Lower body position
+        duck.castShadow = true;
+        duck.receiveShadow = true;
+        scene.add(duck);
 
         // Duck head (Bigger)
         const headGeometry = new THREE.SphereGeometry(1.5, 32, 32);
         const head = new THREE.Mesh(headGeometry, yellowMaterial);
         head.position.set(0, 2.2, 0); // Higher head position to match bigger body
-        body.add(head);
+        duck.add(head);
 
         // Duck beak (Adjusted size)
         const beakGeometry = new THREE.SphereGeometry(0.5, 32, 16, 0, Math.PI); // Use half a sphere for a smoother, jelly-like shape
@@ -337,8 +336,8 @@
         const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
         leftLeg.position.set(-0.6, -2.25, 0);
         rightLeg.position.set(0.6, -2.25, 0);
-        body.add(leftLeg);
-        body.add(rightLeg);
+        duck.add(leftLeg);
+        duck.add(rightLeg);
 
         // Duck feet (Box geometry for webbed feet)
         const footGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.6); // Rectangular foot shape
@@ -349,14 +348,14 @@
         leftFoot.position.set(-0.6, -2.65, 0.3); // Positioned just below the left leg
         leftFoot.castShadow = true;
         leftFoot.receiveShadow = true;
-        body.add(leftFoot);
+        duck.add(leftFoot);
 
         // Right foot
         const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
         rightFoot.position.set(0.6, -2.65, 0.3); // Positioned just below the right leg
         rightFoot.castShadow = true;
         rightFoot.receiveShadow = true;
-        body.add(rightFoot);
+        duck.add(rightFoot);
 
 
         // Crown base (cylinder)
@@ -378,99 +377,134 @@
             head.add(ball);
         }
 
-        // Birthday cake base (cylinder)
-            const cakeBaseGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32); // Base of the cake
-            const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // Pink color for the cake
-            const cakeBase = new THREE.Mesh(cakeBaseGeometry, cakeBaseMaterial);
-            cakeBase.position.set(5, -2.25, 0); // Position the cake to the right of the duck
-            cakeBase.castShadow = true;
-            cakeBase.receiveShadow = true;
-            scene.add(cakeBase);
+       // Birthday cake base (cylinder)
+       const cakeGroup = new THREE.Group();
 
-            // Cake icing layer (smaller cylinder on top)
-            const icingGeometry = new THREE.CylinderGeometry(1.8, 1.8, 0.3, 32); // Icing layer
-            const icingMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for icing
-            const icing = new THREE.Mesh(icingGeometry, icingMaterial);
-            icing.position.set(5, -1.1, 0); // Position the icing on top of the cake base
-            icing.castShadow = true;
-            icing.receiveShadow = true;
-            scene.add(icing);
+const cakeBaseGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32); // Base of the cake
+const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for the cake
+const cakeBase = new THREE.Mesh(cakeBaseGeometry, cakeBaseMaterial);
+cakeBase.castShadow = true;
+cakeBase.receiveShadow = true;
+cakeGroup.add(cakeBase); // Add cake base to the group
 
-            // Add candles (small cylinders) on top of the cake
-            for (let i = 0; i < 5; i++) {
-                const candleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32); // Candle geometry
-                const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFF00 }); // Yellow candles
-                const candle = new THREE.Mesh(candleGeometry, candleMaterial);
+// Cake icing layer (smaller cylinder on top)
+const icingGeometry = new THREE.CylinderGeometry(1.8, 1.8, 0.3, 32); // Icing layer
+const icingMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for icing
+const icing = new THREE.Mesh(icingGeometry, icingMaterial);
+icing.position.set(0, 0.9, 0); // Adjust the y-position to sit on top of the cake base
+icing.castShadow = true;
+icing.receiveShadow = true;
+cakeGroup.add(icing); // Add icing to the group
 
-                const angle = (i / 5) * Math.PI * 2; // Evenly space the candles around the top
-                candle.position.set(5 + Math.cos(angle) * 1, -0.75, Math.sin(angle) * 1); // Position the candles around the edge
-                scene.add(candle);
+// Add candles (small cylinders) on top of the cake
+for (let i = 0; i < 5; i++) {
+    const candleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32); // Candle geometry
+    const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFF00 }); // Yellow candles
+    const candle = new THREE.Mesh(candleGeometry, candleMaterial);
 
-                // Add candle flames (small spheres)
-                const flameGeometry = new THREE.SphereGeometry(0.1, 32, 32); // Small spheres for flames
-                const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xFFA500 }); // Orange flames
-                const flame = new THREE.Mesh(flameGeometry, flameMaterial);
-                flame.position.set(0, 0.3, 0); // Position the flame on top of the candle
-                candle.add(flame);
-            }
+    const angle = (i / 5) * Math.PI * 2; // Evenly space the candles around the top
+    candle.position.set(Math.cos(angle) * 1, 1.2, Math.sin(angle) * 1); // Adjust y to sit on icing layer
+    candle.castShadow = true;
+    candle.receiveShadow = true;
 
-            // Wine bottle body (cylinder)
-                const bottleBodyGeometry = new THREE.CylinderGeometry(0.7, 0.7, 5, 32); // Wide, tall cylinder for the bottle body
-                const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
-                const bottleBody = new THREE.Mesh(bottleBodyGeometry, bottleBodyMaterial);
-                bottleBody.position.set(-6, -0.5, 0); // Position the bottle body to the left of the duck
-                bottleBody.castShadow = true;
-                bottleBody.receiveShadow = true;
-                scene.add(bottleBody);
+    // Add candle flames (small spheres)
+    const flameGeometry = new THREE.SphereGeometry(0.1, 32, 32); // Small spheres for flames
+    const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xFFA500 }); // Orange flames
+    const flame = new THREE.Mesh(flameGeometry, flameMaterial);
+    flame.position.set(0, 0.35, 0); // Position the flame on top of the candle
+    candle.add(flame);
 
-                // Wine bottle neck (smaller cylinder)
-                const bottleNeckGeometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32); // Narrower cylinder for the neck
-                const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
-                const bottleNeck = new THREE.Mesh(bottleNeckGeometry, bottleNeckMaterial);
-                bottleNeck.position.set(-6, 2.5, 0); // Position the neck on top of the bottle body
-                bottleNeck.castShadow = true;
-                bottleNeck.receiveShadow = true;
-                scene.add(bottleNeck);
+    cakeGroup.add(candle); // Add each candle (with flame) to the cake group
+}
 
-                // Wine bottle cap (small cylinder)
-                const bottleCapGeometry = new THREE.CylinderGeometry(0.35, 0.35, 0.4, 32); // Small cylinder for the cap
-                const bottleCapMaterial = new THREE.MeshStandardMaterial({ color: 0x8B0000 }); // Dark red color for the cap
-                const bottleCap = new THREE.Mesh(bottleCapGeometry, bottleCapMaterial);
-                bottleCap.position.set(-6, 3.7, 0); // Position the cap on top of the bottle neck
-                bottleCap.castShadow = true;
-                bottleCap.receiveShadow = true;
-                scene.add(bottleCap);
+// Set position of the entire cake group
+cakeGroup.position.set(5, -2.25, 0); // Position the group in the scene
 
-                 // Wine glass stem (smaller cylinder)
-                const stemGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 32); // Smaller, thinner stem
-                const stemMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.8, transparent: true }); // Glass-like material
-                const stem = new THREE.Mesh(stemGeometry, stemMaterial);
-                stem.position.set(-4, -1.5, 0); // Position the smaller stem to the left of the duck
-                stem.castShadow = true;
-                stem.receiveShadow = true;
-                scene.add(stem);
+// Rotate the cake group by 45 degrees initially
+cakeGroup.rotation.y = Math.PI / 4; // Rotate by 45 degrees (in radians)
 
-                // Wine glass base (smaller cylinder)
-                const baseGeometry = new THREE.CylinderGeometry(0.35, 0.35, 0.05, 32); // Smaller, flatter base
-                const baseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.8, transparent: true }); // Glass-like material
-                const base = new THREE.Mesh(baseGeometry, baseMaterial);
-                base.position.set(-4, -2.25, 0); // Position the smaller base below the stem
-                base.castShadow = true;
-                base.receiveShadow = true;
-                scene.add(base);
+// Add cake group to the scene
+scene.add(cakeGroup);
 
-                // Wine glass bowl (smaller LatheGeometry)
-                const smallPoints = [];
-                for (let i = 0; i < 10; i++) {
-                    smallPoints.push(new THREE.Vector2(Math.sin(i * 0.2) * 0.75 + 0.25, i * 0.15)); // Smaller shape for the wine glass bowl
-                }
-                const bowlGeometry = new THREE.LatheGeometry(smallPoints, 32); // Create the smaller bowl of the wine glass
-                const bowlMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.7, transparent: true }); // Glass-like material
-                const bowl = new THREE.Mesh(bowlGeometry, bowlMaterial);
-                bowl.position.set(-4, -0.75, 0); // Position the smaller bowl on top of the stem
-                bowl.castShadow = true;
-                bowl.receiveShadow = true;
-                scene.add(bowl);
+
+// Create a group for both the wine bottle and wine glass
+const wineGroup = new THREE.Group();
+
+// Create a sub-group for the wine bottle
+const wineBottleGroup = new THREE.Group();
+
+// Wine bottle body (cylinder)
+const bottleBodyGeometry = new THREE.CylinderGeometry(0.7, 0.7, 5, 32); // Wide, tall cylinder for the bottle body
+const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
+const bottleBody = new THREE.Mesh(bottleBodyGeometry, bottleBodyMaterial);
+bottleBody.position.set(0, -0.5, 0); // Position inside the group
+bottleBody.castShadow = true;
+bottleBody.receiveShadow = true;
+wineBottleGroup.add(bottleBody); // Add bottle body to group
+
+// Wine bottle neck (smaller cylinder)
+const bottleNeckGeometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32); // Narrower cylinder for the neck
+const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
+const bottleNeck = new THREE.Mesh(bottleNeckGeometry, bottleNeckMaterial);
+bottleNeck.position.set(0, 2.5, 0); // Position inside the group
+bottleNeck.castShadow = true;
+bottleNeck.receiveShadow = true;
+wineBottleGroup.add(bottleNeck); // Add bottle neck to group
+
+// Wine bottle cap (small cylinder)
+const bottleCapGeometry = new THREE.CylinderGeometry(0.35, 0.35, 0.4, 32); // Small cylinder for the cap
+const bottleCapMaterial = new THREE.MeshStandardMaterial({ color: 0x8B0000 }); // Dark red color for the cap
+const bottleCap = new THREE.Mesh(bottleCapGeometry, bottleCapMaterial);
+bottleCap.position.set(0, 3.7, 0); // Position inside the group
+bottleCap.castShadow = true;
+bottleCap.receiveShadow = true;
+wineBottleGroup.add(bottleCap); // Add bottle cap to group
+
+// Add the wine bottle group to the main wineGroup
+wineBottleGroup.position.set(-1, 0, 0); // Position the bottle within the combined group
+wineGroup.add(wineBottleGroup);
+
+// Create a sub-group for the wine glass
+const wineGlassGroup = new THREE.Group();
+
+// Wine glass stem (smaller cylinder)
+const stemGeometry = new THREE.CylinderGeometry(0.05, 0.05, 1.5, 32); // Smaller, thinner stem
+const stemMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.8, transparent: true }); // Glass-like material
+const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+stem.position.set(0, -1.5, 0); // Position inside the group
+stem.castShadow = true;
+stem.receiveShadow = true;
+wineGlassGroup.add(stem); // Add stem to group
+
+// Wine glass base (smaller cylinder)
+const baseGeometry = new THREE.CylinderGeometry(0.35, 0.35, 0.05, 32); // Smaller, flatter base
+const baseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.8, transparent: true }); // Glass-like material
+const base = new THREE.Mesh(baseGeometry, baseMaterial);
+base.position.set(0, -2.25, 0); // Position inside the group
+base.castShadow = true;
+base.receiveShadow = true;
+wineGlassGroup.add(base); // Add base to group
+
+// Wine glass bowl (smaller LatheGeometry)
+const smallPoints = [];
+for (let i = 0; i < 10; i++) {
+    smallPoints.push(new THREE.Vector2(Math.sin(i * 0.2) * 0.75 + 0.25, i * 0.15)); // Smaller shape for the wine glass bowl
+}
+const bowlGeometry = new THREE.LatheGeometry(smallPoints, 32); // Create the smaller bowl of the wine glass
+const bowlMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF, opacity: 0.7, transparent: true }); // Glass-like material
+const bowl = new THREE.Mesh(bowlGeometry, bowlMaterial);
+bowl.position.set(0, -0.75, 0); // Position inside the group
+bowl.castShadow = true;
+bowl.receiveShadow = true;
+wineGlassGroup.add(bowl); // Add bowl to group
+
+// Add the wine glass group to the main wineGroup
+wineGlassGroup.position.set(1, 0, 0); // Position the glass within the combined group
+wineGroup.add(wineGlassGroup);
+
+// Set the position of the combined wine group
+wineGroup.position.set(-5, -0.25, 0); // Position the group in the scene
+scene.add(wineGroup); // Add the combined wine group to the scene
 
 
         // Handle resizing and mobile adjustments
@@ -480,29 +514,40 @@
             camera.updateProjectionMatrix();
         });
 
+// Animation variables
+let floatDirection = 1;
+let floatSpeed = 0.1; // Speed for the duck's floating movement
+let duckRotationSpeed = 0.06; // Speed for the duck's rotation
+let otherRotationSpeed = 0.05; // Increased speed for more noticeable effect
+let rotationSpeed = 0.05; // Speed for all objects to rotate together
 
-        // Animation variables
-        let floatDirection = 1;
-        let floatSpeed = 0.1; // Faster speed
-        let rotationSpeed = 0.06; // Speed of rotation
+// Initial y-position limits for float animation
+const floatUpperLimit = -0.2;
+const floatLowerLimit = -4.0;
 
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
+function animate() {
+    requestAnimationFrame(animate);
 
-            // Make the duck float up and down smoothly
-            body.position.y += floatSpeed * floatDirection;
-            body.rotation.y += rotationSpeed;
+    // Duck animation (float up and down + rotation)
+    duck.position.y += floatSpeed * floatDirection;
+    duck.rotation.y += rotationSpeed;
 
-            // Adjust the float range
-            if (body.position.y > -0.2 || body.position.y < -4.0) {
-                floatDirection *= -1;  // Reverse the floating direction when limits are reached
-            }
+    // Reverse the float direction when limits are reached
+    if (duck.position.y > floatUpperLimit || duck.position.y < floatLowerLimit) {
+        floatDirection *= -1;
+    }
 
-            // Render the scene
-            renderer.render(scene, camera);
-        }
-        animate();
-    </script>
+    // Rotate the cake group (includes cake base, icing, and candles)
+    cakeGroup.rotation.y += rotationSpeed;
+
+    // Rotate the combined wine group (includes both wine bottle and wine glass)
+    wineGroup.rotation.y += rotationSpeed;
+
+    // Render the scene
+    renderer.render(scene, camera);
+}
+animate();
+
+</script>
 </body>
 </html>
