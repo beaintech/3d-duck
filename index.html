@@ -123,17 +123,18 @@
         }
 
         .cocktail-pause {
-        text-align: center; /* Center the text */
-        font-family: 'Press Start 2P', cursive; /* Mario-style font */
-        font-size: 16px; /* Adjust font size */
-        color: #ff0000; /* Mario red for the text */
-        background-color: #fff9c4; /* Soft yellow background to contrast with text */
-        border: 4px solid #ff6600; /* Bold orange border */
-        border-radius: 10px; /* Rounded corners for the pause box */
-        padding: 20px; /* Padding to give the text breathing room */
-        margin: 30px auto; /* Space around the pause section */
-        width: 80%; /* Set the width of the pause box */
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
+            max-width: 750px;
+            text-align: center; /* Center the text */
+            font-family: 'Press Start 2P', cursive; /* Mario-style font */
+            font-size: 16px; /* Adjust font size */
+            color: #ff0000; /* Mario red for the text */
+            background-color: #fff9c4; /* Soft yellow background to contrast with text */
+            border: 4px solid #ff6600; /* Bold orange border */
+            border-radius: 10px; /* Rounded corners for the pause box */
+            padding: 20px; /* Padding to give the text breathing room */
+            margin: 30px auto; /* Space around the pause section */
+            width: 80%; /* Set the width of the pause box */
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for a 3D effect */
         }
 
         .cocktail-pause p {
@@ -192,9 +193,9 @@
                 <li>Steamed shrimp dumplings</li>
                 <li>Steamed pork dumplings</li>
                 <li>Steamed beef dumplings</li>
-                <li>Vegetable baozi</li>
+                <li>Steamed vegetable dumplings</li>
                 <li>Fried chicken dumplings</li>
-                <li>Fried spring rolls</li>
+                <li>Fried vegetable spring rolls</li>
             </ul>
         </div>
     </div>
@@ -214,8 +215,9 @@
                 <ul>
                     <li>Fish balls and beef balls</li>
                     <li>Thin-sliced lamb and beef</li>
-                    <li>Crispy fried bread</li>
+                    <li>A variety of fresh seafood</li>
                     <li>A variety of vegetables and tofu</li>
+                    <li>Crispy fried bread</li>
                     <li>Traditional hotpot sauces</li>
                 </ul>
             </div>
@@ -329,32 +331,32 @@
         head.add(leftEye);
         head.add(rightEye);
 
-// Duck legs (Cylinder geometry for legs, already in place)
-const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.75, 32);
-const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
-const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
-leftLeg.position.set(-0.6, -2.25, 0);
-rightLeg.position.set(0.6, -2.25, 0);
-body.add(leftLeg);
-body.add(rightLeg);
+        // Duck legs (Cylinder geometry for legs, already in place)
+        const legGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.75, 32);
+        const leftLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+        const rightLeg = new THREE.Mesh(legGeometry, orangeMaterial);
+        leftLeg.position.set(-0.6, -2.25, 0);
+        rightLeg.position.set(0.6, -2.25, 0);
+        body.add(leftLeg);
+        body.add(rightLeg);
 
-// Duck feet (Box geometry for webbed feet)
-const footGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.6); // Rectangular foot shape
-const footMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 }); // Orange color for the feet
+        // Duck feet (Box geometry for webbed feet)
+        const footGeometry = new THREE.BoxGeometry(0.5, 0.1, 0.6); // Rectangular foot shape
+        const footMaterial = new THREE.MeshStandardMaterial({ color: 0xffa500 }); // Orange color for the feet
 
-// Left foot
-const leftFoot = new THREE.Mesh(footGeometry, footMaterial);
-leftFoot.position.set(-0.6, -2.65, 0.3); // Positioned just below the left leg
-leftFoot.castShadow = true;
-leftFoot.receiveShadow = true;
-body.add(leftFoot);
+        // Left foot
+        const leftFoot = new THREE.Mesh(footGeometry, footMaterial);
+        leftFoot.position.set(-0.6, -2.65, 0.3); // Positioned just below the left leg
+        leftFoot.castShadow = true;
+        leftFoot.receiveShadow = true;
+        body.add(leftFoot);
 
-// Right foot
-const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
-rightFoot.position.set(0.6, -2.65, 0.3); // Positioned just below the right leg
-rightFoot.castShadow = true;
-rightFoot.receiveShadow = true;
-body.add(rightFoot);
+        // Right foot
+        const rightFoot = new THREE.Mesh(footGeometry, footMaterial);
+        rightFoot.position.set(0.6, -2.65, 0.3); // Positioned just below the right leg
+        rightFoot.castShadow = true;
+        rightFoot.receiveShadow = true;
+        body.add(rightFoot);
 
 
         // Crown base (cylinder)
@@ -378,7 +380,7 @@ body.add(rightFoot);
 
         // Birthday cake base (cylinder)
             const cakeBaseGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32); // Base of the cake
-            const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFC0CB }); // Pink color for the cake
+            const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // Pink color for the cake
             const cakeBase = new THREE.Mesh(cakeBaseGeometry, cakeBaseMaterial);
             cakeBase.position.set(5, -2.25, 0); // Position the cake to the right of the duck
             cakeBase.castShadow = true;
@@ -414,7 +416,7 @@ body.add(rightFoot);
 
             // Wine bottle body (cylinder)
                 const bottleBodyGeometry = new THREE.CylinderGeometry(0.7, 0.7, 5, 32); // Wide, tall cylinder for the bottle body
-                const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.9, transparent: true }); // Green glass-like material
+                const bottleBodyMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
                 const bottleBody = new THREE.Mesh(bottleBodyGeometry, bottleBodyMaterial);
                 bottleBody.position.set(-6, -0.5, 0); // Position the bottle body to the left of the duck
                 bottleBody.castShadow = true;
@@ -423,7 +425,7 @@ body.add(rightFoot);
 
                 // Wine bottle neck (smaller cylinder)
                 const bottleNeckGeometry = new THREE.CylinderGeometry(0.3, 0.3, 2, 32); // Narrower cylinder for the neck
-                const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.9, transparent: true }); // Green glass-like material
+                const bottleNeckMaterial = new THREE.MeshStandardMaterial({ color: 0x008000, opacity: 0.8, transparent: true }); // Green glass-like material
                 const bottleNeck = new THREE.Mesh(bottleNeckGeometry, bottleNeckMaterial);
                 bottleNeck.position.set(-6, 2.5, 0); // Position the neck on top of the bottle body
                 bottleNeck.castShadow = true;
