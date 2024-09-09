@@ -16,7 +16,7 @@
         /* Main container for the text */
         .game-text, .game-text-2 {
             position: absolute;
-            top: 80px;
+            top: 120px;
             left: 50%;
             line-height: 60px;
             transform: translateX(-50%);
@@ -104,24 +104,6 @@
             line-height: 24px;
         }
 
-        .language-toggle-button {
-        margin-bottom: 20px;
-        font-family: 'Press Start 2P', cursive;
-        padding: 10px 20px;
-        background-color: #00cc66;
-        color: #ffffff;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        text-transform: uppercase;
-        box-shadow: 2px 2px #000000;
-        margin-left: 10px;
-        }
-
-        .language-toggle-button:hover {
-        background-color: #00994c;
-        }
-
         .cocktail-pause {
             max-width: 750px;
             text-align: center; /* Center the text */
@@ -138,8 +120,8 @@
         }
 
         .cocktail-pause p {
-        margin: 0; /* Remove default margin */
-        line-height: 1.6; /* Better line spacing */
+            margin: 0; /* Remove default margin */
+            line-height: 1.6; /* Better line spacing */
         }
 
         @media (max-width: 500px) {
@@ -380,25 +362,25 @@
        // Birthday cake base (cylinder)
        const cakeGroup = new THREE.Group();
 
-const cakeBaseGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32); // Base of the cake
-const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for the cake
-const cakeBase = new THREE.Mesh(cakeBaseGeometry, cakeBaseMaterial);
-cakeBase.castShadow = true;
-cakeBase.receiveShadow = true;
-cakeGroup.add(cakeBase); // Add cake base to the group
+        const cakeBaseGeometry = new THREE.CylinderGeometry(2, 2, 1.5, 32); // Base of the cake
+        const cakeBaseMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for the cake
+        const cakeBase = new THREE.Mesh(cakeBaseGeometry, cakeBaseMaterial);
+        cakeBase.castShadow = true;
+        cakeBase.receiveShadow = true;
+        cakeGroup.add(cakeBase); // Add cake base to the group
 
-// Cake icing layer (smaller cylinder on top)
-const icingGeometry = new THREE.CylinderGeometry(1.8, 1.8, 0.3, 32); // Icing layer
-const icingMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for icing
-const icing = new THREE.Mesh(icingGeometry, icingMaterial);
-icing.position.set(0, 0.9, 0); // Adjust the y-position to sit on top of the cake base
-icing.castShadow = true;
-icing.receiveShadow = true;
-cakeGroup.add(icing); // Add icing to the group
+        // Cake icing layer (smaller cylinder on top)
+        const icingGeometry = new THREE.CylinderGeometry(1.8, 1.8, 2.3, 32); // Icing layer
+        const icingMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFFFF }); // White color for icing
+        const icing = new THREE.Mesh(icingGeometry, icingMaterial);
+        icing.position.set(0, 0.9, 0); // Adjust the y-position to sit on top of the cake base
+        icing.castShadow = true;
+        icing.receiveShadow = true;
+        cakeGroup.add(icing); // Add icing to the group
 
 // Add candles (small cylinders) on top of the cake
 for (let i = 0; i < 5; i++) {
-    const candleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 32); // Candle geometry
+    const candleGeometry = new THREE.CylinderGeometry(0.1, 0.1, 2.5, 32); // Candle geometry
     const candleMaterial = new THREE.MeshStandardMaterial({ color: 0xFFFF00 }); // Yellow candles
     const candle = new THREE.Mesh(candleGeometry, candleMaterial);
 
@@ -411,14 +393,14 @@ for (let i = 0; i < 5; i++) {
     const flameGeometry = new THREE.SphereGeometry(0.1, 32, 32); // Small spheres for flames
     const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xFFA500 }); // Orange flames
     const flame = new THREE.Mesh(flameGeometry, flameMaterial);
-    flame.position.set(0, 0.35, 0); // Position the flame on top of the candle
+    flame.position.set(0, 1.35, 0); // Position the flame on top of the candle
     candle.add(flame);
 
     cakeGroup.add(candle); // Add each candle (with flame) to the cake group
 }
 
 // Set position of the entire cake group
-cakeGroup.position.set(5, -2.25, 0); // Position the group in the scene
+cakeGroup.position.set(5, -4, 0); // Position the group in the scene
 
 // Rotate the cake group by 45 degrees initially
 cakeGroup.rotation.y = Math.PI / 4; // Rotate by 45 degrees (in radians)
@@ -503,16 +485,16 @@ wineGlassGroup.position.set(1, 0, 0); // Position the glass within the combined 
 wineGroup.add(wineGlassGroup);
 
 // Set the position of the combined wine group
-wineGroup.position.set(-5, -0.25, 0); // Position the group in the scene
+wineGroup.position.set(-5, -2.25, 0); // Position the group in the scene
 scene.add(wineGroup); // Add the combined wine group to the scene
 
 
-        // Handle resizing and mobile adjustments
-        window.addEventListener('resize', () => {
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-        });
+// Handle resizing and mobile adjustments
+ window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
 
 // Animation variables
 let floatDirection = 1;
